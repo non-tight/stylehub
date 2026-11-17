@@ -1,0 +1,83 @@
+---
+/**
+ * 모든 페이지를 감싸는 공통 틀 (Next.js의 layout.tsx / _app.js + <Head> 역할)
+ * 사용법:
+ *   <BaseLayout title="응원 타월" description="...">본문</BaseLayout>
+ * 본문은 <slot />(= Next.js의 children) 자리에 들어간다.
+ */
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { withBase } from "../lib/url";
+
+interface Props {
+  /** 페이지 제목. 비우면 "스타일허브"만 표시 */
+  title?: string;
+  /** 검색 결과·링크 공유에 보이는 설명 (브랜드·구단·캐릭터명 금지) */
+  description?: string;
+  /** true면 검색엔진에 노출하지 않음 (개발용 페이지 등) */
+  noindex?: boolean;
+}
+
+const SITE_NAME = "스타일허브";
+const DEFAULT_DESCRIPTION = "스타일과 트렌드로 고르는 합리적인 가격의 상품 모음";
+
+const { title, description = DEFAULT_DESCRIPTION, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <meta name="theme-color" content="#f4f6f9" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  .skip-link {
+    position: absolute;
+    left: var(--space-4);
+    top: -100px;
+    z-index: 100;
+    background: var(--color-fg);
+    color: var(--color-surface);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+  .skip-link:focus {
+    top: var(--space-2);
+  }
+</style>

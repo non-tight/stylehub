@@ -1,0 +1,74 @@
+---
+/**
+ * 개발용 미리보기 페이지: npm run dev 에서만 /stylehub/dev/components 로 열린다.
+ * 배포용 빌드(npm run build)에서는 getStaticPaths가 빈 목록을 돌려줘서 페이지가 만들어지지 않는다.
+ * 아래 예시 상품은 이 페이지에서만 쓰며 실제 상품 데이터(products.json)가 아니다.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import type { Product } from "../../lib/data";
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { name: "components" } }] : [];
+}
+
+// 이미지 표시 확인용 그림 (판매처 이미지 대신 쓰는 단순한 SVG)
+const demoImage =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#eef1f5"/><rect x="90" y="120" width="220" height="160" rx="16" fill="#d9473f"/><rect x="90" y="150" width="220" height="18" fill="#ffffff"/><rect x="90" y="232" width="220" height="18" fill="#ffffff"/></svg>`,
+  );
+
+const base: Omit<Product, "id" | "name" | "color" | "image" | "tags"> = {
+  category: "cheering",
+  subcategory: "towel",
+  priceRange: "under-10k",
+  seller: "예시 판매처",
+  url: "https://example.com/",
+  addedAt: "2026-11-17",
+};
+
+const samples: Product[] = [
+  { ...base, id: "s1", name: "레드 스트라이프 응원 타월", color: "red", image: demoImage, tags: ["red", "stripe", "cotton", "cheering"] },
+  { ...base, id: "s2", name: "이미지 주소가 깨진 경우 (색상 카드로 바뀜)", color: "blue", image: "https://invalid.example/broken.jpg", tags: ["blue", "cheering"] },
+  { ...base, id: "s3", name: "이미지가 없는 경우", color: "yellow", image: null, tags: ["yellow", "nylon", "rainy-day"], subcategory: "clapper", priceRange: "10k-20k" },
+  { ...base, id: "s4", name: "상품명이 아주 길 때 두 줄까지만 보이고 나머지는 말줄임표로 처리되는지 확인하는 예시 상품", color: "multicolor", image: null, tags: ["multicolor", "retro"], category: "movie-mood", subcategory: "retro", priceRange: "30k-50k", seller: "판매처 이름이 긴 예시 쇼핑몰" },
+  { ...base, id: "s5", name: "골드 오너먼트 12개 세트", color: "gold", image: null, tags: ["gold", "home-party"], category: "christmas", subcategory: "home-deco", priceRange: "10k-20k" },
+  { ...base, id: "s6", name: "화이트 니트 장갑", color: "white", image: null, tags: ["white", "knit", "winter"], category: "christmas", subcategory: "knit", priceRange: "20k-30k" },
+];
+---
+
+<BaseLayout title="컴포넌트 미리보기" noindex>
+  <section class="container wrap">
+    <h1>컴포넌트 미리보기 (개발용)</h1>
+    <p>배포된 사이트에는 나타나지 않는 페이지입니다. 상품 카드 모양을 확인합니다.</p>
+    <div class="grid">
+      {samples.map((p) => <ProductCard product={p} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .wrap {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+  }
+  h1 {
+    font-size: var(--text-xl);
+  }
+  p {
+    color: var(--color-muted);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+  }
+</style>
