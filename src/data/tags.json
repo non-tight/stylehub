@@ -1,0 +1,79 @@
+[
+  {
+    "id": "color",
+    "name": "색상",
+    "tags": [
+      { "id": "red", "name": "레드" },
+      { "id": "orange", "name": "오렌지" },
+      { "id": "yellow", "name": "옐로" },
+      { "id": "green", "name": "그린" },
+      { "id": "mint", "name": "민트" },
+      { "id": "sky-blue", "name": "스카이블루" },
+      { "id": "blue", "name": "블루" },
+      { "id": "navy", "name": "네이비" },
+      { "id": "purple", "name": "퍼플" },
+      { "id": "pink", "name": "핑크" },
+      { "id": "brown", "name": "브라운" },
+      { "id": "beige", "name": "베이지" },
+      { "id": "black", "name": "블랙" },
+      { "id": "white", "name": "화이트" },
+      { "id": "gray", "name": "그레이" },
+      { "id": "gold", "name": "골드" },
+      { "id": "silver", "name": "실버" },
+      { "id": "multicolor", "name": "멀티컬러" }
+    ]
+  },
+  {
+    "id": "material",
+    "name": "소재",
+    "tags": [
+      { "id": "cotton", "name": "면" },
+      { "id": "knit", "name": "니트" },
+      { "id": "fleece", "name": "플리스" },
+      { "id": "velvet", "name": "벨벳" },
+      { "id": "denim", "name": "데님" },
+      { "id": "faux-leather", "name": "인조가죽" },
+      { "id": "nylon", "name": "나일론" },
+      { "id": "wood", "name": "우드" },
+      { "id": "acrylic", "name": "아크릴" },
+      { "id": "glass", "name": "유리" },
+      { "id": "metal", "name": "메탈" },
+      { "id": "paper", "name": "종이" }
+    ]
+  },
+  {
+    "id": "style",
+    "name": "스타일·무드",
+    "tags": [
+      { "id": "retro", "name": "레트로" },
+      { "id": "vintage", "name": "빈티지" },
+      { "id": "minimal", "name": "미니멀" },
+      { "id": "monotone", "name": "모노톤" },
+      { "id": "neon", "name": "네온" },
+      { "id": "metallic", "name": "메탈릭" },
+      { "id": "glitter", "name": "글리터" },
+      { "id": "cozy", "name": "포근한" },
+      { "id": "classic", "name": "클래식" },
+      { "id": "y2k", "name": "Y2K" },
+      { "id": "check", "name": "체크 패턴" },
+      { "id": "stripe", "name": "스트라이프" },
+      { "id": "dot", "name": "도트" },
+      { "id": "animal-motif", "name": "동물 모티브" }
+    ]
+  },
+  {
+    "id": "use",
+    "name": "용도",
+    "tags": [
+      { "id": "cheering", "name": "응원" },
+      { "id": "home-party", "name": "홈파티" },
+      { "id": "gift", "name": "선물" },
+      { "id": "interior", "name": "인테리어" },
+      { "id": "photo-prop", "name": "포토 소품" },
+      { "id": "outdoor", "name": "야외" },
+      { "id": "rainy-day", "name": "우천 대비" },
+      { "id": "winter", "name": "겨울 보온" },
+      { "id": "daily", "name": "데일리" }
+    ]
+  }
+]
