@@ -1,0 +1,66 @@
+---
+/**
+ * 사이트 하단: 안내문(CLAUDE.md 규칙) + 하단 메뉴
+ * 안내문 문구를 바꿀 때는 CLAUDE.md의 "사이트 공통 요소"도 같이 확인한다.
+ */
+import { categories } from "../lib/data";
+import { withBase } from "../lib/url";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div class="notice">
+      <p>스타일허브는 상품을 직접 판매하지 않으며, 제휴 링크를 통한 수수료도 받지 않습니다.</p>
+      <p>각 상품의 정보·가격·배송·교환·환불은 해당 판매처의 책임입니다.</p>
+    </div>
+    <nav aria-label="하단 메뉴">
+      <ul>
+        {categories.map((c) => <li><a href={withBase(`/category/${c.id}/`)}>{c.name}</a></li>)}
+        <li><a href={withBase("/tags/")}>태그</a></li>
+        <li><a href={withBase("/about/")}>소개</a></li>
+      </ul>
+    </nav>
+    <p class="copy">© {year} 스타일허브</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-12);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+  .inner {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+  }
+  .notice {
+    display: grid;
+    gap: var(--space-1);
+    color: var(--color-fg);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+  a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-fg);
+    text-decoration: underline;
+  }
+  .copy {
+    font-size: var(--text-xs);
+  }
+</style>

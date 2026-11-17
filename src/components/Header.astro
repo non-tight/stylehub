@@ -1,0 +1,126 @@
+---
+/**
+ * 사이트 위쪽 헤더: 로고 + 메뉴
+ * 테마 메뉴는 categories.json에서 자동으로 만든다.
+ * 휴대폰에서는 메뉴 줄을 가로로 밀어서 본다 (자바스크립트 없음).
+ */
+import { categories } from "../lib/data";
+import { withBase } from "../lib/url";
+
+const items = [
+  { href: withBase("/"), label: "홈", exact: true },
+  ...categories.map((c) => ({ href: withBase(`/category/${c.id}/`), label: c.name, exact: false })),
+  { href: withBase("/tags/"), label: "태그", exact: false },
+  { href: withBase("/about/"), label: "소개", exact: false },
+];
+
+// 지금 보고 있는 메뉴 강조 (주소 끝의 / 유무와 상관없이 비교)
+const strip = (p: string) => p.replace(/\/+$/, "");
+const current = strip(Astro.url.pathname);
+const isActive = (href: string, exact: boolean) =>
+  exact ? current === strip(href) : current === strip(href) || current.startsWith(`${strip(href)}/`);
+---
+
+<header class="site-header">
+  <div class="container inner">
+    <a class="logo" href={withBase("/")}>스타일<b>허브</b></a>
+    <nav aria-label="주 메뉴">
+      <ul>
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={{ active: isActive(item.href, item.exact) }}
+                aria-current={isActive(item.href, item.exact) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    min-height: 60px;
+  }
+  .logo {
+    flex: none;
+    font-size: var(--text-lg);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+  .logo b {
+    color: var(--color-accent);
+    font-weight: inherit;
+  }
+  nav {
+    min-width: 0;
+    flex: 1;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  ul::-webkit-scrollbar {
+    display: none;
+  }
+  li a {
+    display: block;
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-3);
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  li a:hover {
+    color: var(--color-fg);
+    background: var(--color-bg);
+  }
+  li a.active {
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    font-weight: 600;
+  }
+
+  /* 휴대폰: 로고 아래로 메뉴 줄 */
+  @media (max-width: 640px) {
+    .inner {
+      flex-wrap: wrap;
+      gap: 0;
+      padding-block: var(--space-2);
+    }
+    .logo {
+      padding-block: var(--space-1);
+    }
+    nav {
+      flex-basis: 100%;
+      margin-inline: calc(var(--space-4) * -1);
+    }
+    ul {
+      padding-inline: var(--space-3);
+    }
+  }
+</style>

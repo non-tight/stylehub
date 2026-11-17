@@ -1,40 +1,29 @@
 ---
-// 5단계 임시 첫 화면: 배포 확인용. 7단계에서 공통 레이아웃과 홈 디자인으로 바꾼다.
+// 홈 임시 화면. 8단계에서 테마 타일 + 가로 줄 디자인으로 바꾼다.
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { categories } from "../lib/data";
 ---
 
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>스타일허브</title>
-    <meta name="description" content="스타일과 트렌드로 고르는 합리적인 가격의 상품 모음" />
-    <style>
-      body {
-        margin: 0;
-        font-family: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-        color: #171a21;
-        background: #f4f6f9;
-        display: grid;
-        min-height: 100vh;
-        grid-template-rows: 1fr auto;
-      }
-      main { display: grid; place-content: center; gap: 12px; padding: 24px 16px; text-align: center; }
-      h1 { margin: 0; font-size: 32px; }
-      p { margin: 0; color: #5e6573; }
-      footer { border-top: 1px solid #dce1e8; padding: 16px; font-size: 13px; color: #5e6573; text-align: center; }
-      footer p + p { margin-top: 4px; }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>스타일허브</h1>
-      <p>사이트를 준비하고 있습니다.</p>
-      <p>준비 중인 테마: {categories.map((c) => c.name).join(" · ")}</p>
-    </main>
-    <footer>
-      <p>스타일허브는 상품을 직접 판매하지 않으며, 제휴 링크를 통한 수수료도 받지 않습니다.</p>
-      <p>각 상품의 정보·가격·배송·교환·환불은 해당 판매처의 책임입니다.</p>
-    </footer>
-  </body>
-</html>
+<BaseLayout>
+  <section class="container intro">
+    <h1>스타일허브</h1>
+    <p>스타일과 트렌드로 고르는 합리적인 가격의 상품 모음을 준비하고 있습니다.</p>
+    <p class="themes">준비 중인 테마: {categories.map((c) => c.name).join(" · ")}</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-12);
+    text-align: center;
+    justify-items: center;
+  }
+  h1 {
+    font-size: var(--text-2xl);
+  }
+  p {
+    color: var(--color-muted);
+  }
+</style>

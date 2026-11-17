@@ -1,0 +1,179 @@
+---
+/**
+ * 상품 카드
+ * - 이미지: 판매처 이미지 주소를 그대로 불러와 표시(임베딩). 없거나 불러오기에 실패하면 색상 카드가 보인다.
+ * - 상품명·이미지·"판매처 보기"는 판매처를 새 탭으로 연다.
+ * - 태그는 사이트 안 태그 페이지로 연결된다.
+ */
+import type { Product } from "../lib/data";
+import { getCategory, getPriceRange, getTag } from "../lib/data";
+import { getSwatch } from "../lib/colors";
+import { withBase } from "../lib/url";
+
+interface Props {
+  product: Product;
+  /** 카드에 보여 줄 태그 최대 개수 */
+  maxTags?: number;
+}
+
+const { product, maxTags = 3 } = Astro.props;
+
+const subName =
+  getCategory(product.category)?.subcategories.find((s) => s.id === product.subcategory)?.name ?? "";
+const priceName = getPriceRange(product.priceRange)?.name ?? "";
+const tags = product.tags
+  .map((id) => getTag(id))
+  .filter((t) => t !== undefined)
+  .slice(0, maxTags);
+const swatch = getSwatch(product.color);
+
+// 외부 링크 공통 속성: 새 탭, 보안(noopener noreferrer), 추천·광고 링크 아님 표시(nofollow)
+const external = { target: "_blank", rel: "noopener noreferrer nofollow" };
+---
+
+<article class="card">
+  <a class="main-link" href={product.url} {...external}>
+    <div class="media" style={`--swatch-bg: ${swatch.bg}; --swatch-fg: ${swatch.fg};`}>
+      <span class="swatch-label" aria-hidden="true">{subName}</span>
+      {
+        product.image && (
+          // 상품명이 바로 아래에 있으므로 alt는 비워 둔다 (화면 낭독기가 이름을 두 번 읽지 않게)
+          <img
+            src={product.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            onerror="this.hidden=true"
+          />
+        )
+      }
+    </div>
+    <h3 class="name">{product.name}</h3>
+    <span class="sr-only">(판매처 페이지, 새 탭)</span>
+  </a>
+
+  <p class="meta">{priceName} · {product.seller}</p>
+
+  {
+    tags.length > 0 && (
+      <ul class="tags" aria-label="태그">
+        {tags.map((t) => (
+          <li>
+            <a href={withBase(`/tags/${t.id}/`)}>#{t.name}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  <a class="go" href={product.url} {...external} aria-label={`${product.name} 판매처 보기 (새 탭)`}>
+    판매처 보기 <span aria-hidden="true">↗</span>
+  </a>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .main-link {
+    display: grid;
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--swatch-bg);
+    color: var(--swatch-fg);
+    display: grid;
+    place-items: center;
+  }
+  /* 흰색·밝은 색 카드도 테두리가 보이게 안쪽 선 */
+  .media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgb(23 26 33 / 8%);
+    pointer-events: none;
+  }
+  .swatch-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    opacity: 0.85;
+    padding: var(--space-2);
+    text-align: center;
+  }
+  .media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--color-surface);
+  }
+  .media img[hidden] {
+    display: none;
+  }
+  .name {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .main-link:hover .name {
+    text-decoration: underline;
+  }
+  .meta {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+  .tags a {
+    display: inline-block;
+    font-size: var(--text-xs);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .tags a:hover {
+    text-decoration: underline;
+  }
+  .go {
+    margin-top: auto;
+    display: block;
+    text-align: center;
+    padding: var(--space-2);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .go:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>
