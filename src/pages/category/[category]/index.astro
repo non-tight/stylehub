@@ -1,0 +1,25 @@
+---
+/**
+ * 대분류 페이지: /category/[category]/  (예: /category/cheering/)
+ * categories.json의 대분류마다 자동으로 만들어진다 (Next.js의 getStaticPaths와 같은 역할).
+ */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CategoryView from "../../../components/CategoryView.astro";
+import type { Category } from "../../../lib/data";
+import { categories, getProductsByCategory } from "../../../lib/data";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
+}
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const products = getProductsByCategory(category.id);
+---
+
+<BaseLayout title={category.name} description={`${category.name}: ${category.description}`}>
+  <CategoryView category={category} products={products} />
+</BaseLayout>

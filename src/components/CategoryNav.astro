@@ -1,0 +1,190 @@
+---
+/**
+ * 카테고리 메뉴
+ * - PC: 왼쪽 세로 메뉴 (대분류 목록, 현재 대분류는 소분류까지 펼침, 상품 수 표시)
+ * - 휴대폰: 현재 대분류의 "전체 / 소분류들" 칩 줄 (가로로 밀어서 봄)
+ */
+import type { Category } from "../lib/data";
+import { categories, getProductsByCategory, getProductsBySub } from "../lib/data";
+import { withBase } from "../lib/url";
+
+interface Props {
+  current: Category;
+  /** 현재 소분류 id. 대분류 페이지면 비움 */
+  currentSub?: string;
+  /** side: PC 왼쪽 메뉴, chips: 휴대폰 칩 줄 */
+  variant: "side" | "chips";
+}
+
+const { current, currentSub, variant } = Astro.props;
+const catHref = (c: Category) => withBase(`/category/${c.id}/`);
+const subHref = (c: Category, subId: string) => withBase(`/category/${c.id}/${subId}/`);
+---
+
+{variant === "side" && (
+<nav class="side" aria-label="카테고리">
+  <p class="side-title">카테고리</p>
+  <ul>
+    {
+      categories.map((c) => {
+        const isCur = c.id === current.id;
+        return (
+          <li>
+            <a
+              href={catHref(c)}
+              class:list={["cat", { active: isCur && !currentSub }]}
+              aria-current={isCur && !currentSub ? "page" : undefined}
+            >
+              <span>{c.name}</span>
+              <span class="n">{getProductsByCategory(c.id).length}</span>
+            </a>
+            {isCur && (
+              <ul class="subs">
+                {c.subcategories.map((s) => (
+                  <li>
+                    <a
+                      href={subHref(c, s.id)}
+                      class:list={{ active: s.id === currentSub }}
+                      aria-current={s.id === currentSub ? "page" : undefined}
+                    >
+                      <span>{s.name}</span>
+                      <span class="n">{getProductsBySub(c.id, s.id).length}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+)}
+
+{variant === "chips" && (
+<nav class="chips" aria-label={`${current.name} 소분류`}>
+  <ul>
+    <li>
+      <a href={catHref(current)} class:list={{ active: !currentSub }} aria-current={!currentSub ? "page" : undefined}>
+        전체
+      </a>
+    </li>
+    {
+      current.subcategories.map((s) => (
+        <li>
+          <a
+            href={subHref(current, s.id)}
+            class:list={{ active: s.id === currentSub }}
+            aria-current={s.id === currentSub ? "page" : undefined}
+          >
+            {s.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+)}
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    text-decoration: none;
+  }
+
+  /* PC 왼쪽 메뉴 */
+  .side {
+    display: none;
+  }
+  .side-title {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    padding: 0 var(--space-3) var(--space-2);
+  }
+  .side ul {
+    display: grid;
+    gap: 2px;
+  }
+  .side a {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--color-fg);
+  }
+  .side a:hover {
+    background: var(--color-surface);
+  }
+  .side a.cat {
+    font-weight: 600;
+  }
+  .side .subs {
+    margin: 2px 0 var(--space-2) var(--space-3);
+    padding-left: var(--space-2);
+    border-left: 1px solid var(--color-line);
+  }
+  .side .subs a {
+    color: var(--color-muted);
+  }
+  .side a.active {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  .n {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .side a.active .n {
+    color: var(--color-accent);
+  }
+
+  /* 휴대폰 칩 줄 */
+  .chips ul {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+    scrollbar-width: none;
+  }
+  .chips ul::-webkit-scrollbar {
+    display: none;
+  }
+  .chips a {
+    display: block;
+    white-space: nowrap;
+    padding: 6px var(--space-3);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .chips a.active {
+    background: var(--color-fg);
+    border-color: var(--color-fg);
+    color: var(--color-surface);
+    font-weight: 600;
+  }
+
+  @media (min-width: 900px) {
+    .side {
+      display: block;
+      position: sticky;
+      top: 80px;
+    }
+    .chips {
+      display: none;
+    }
+  }
+</style>

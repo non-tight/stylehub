@@ -1,0 +1,120 @@
+---
+/**
+ * 대분류·소분류 페이지 공통 화면: 위치 표시 + 제목 + (PC 왼쪽 메뉴 / 휴대폰 칩 줄) + 상품 목록
+ */
+import type { Category, Product, Subcategory } from "../lib/data";
+import { withBase } from "../lib/url";
+import CategoryNav from "./CategoryNav.astro";
+import ProductList from "./ProductList.astro";
+
+interface Props {
+  category: Category;
+  sub?: Subcategory;
+  products: Product[];
+}
+
+const { category, sub, products } = Astro.props;
+---
+
+<div class="container page">
+  <aside class="aside">
+    <CategoryNav current={category} currentSub={sub?.id} variant="side" />
+  </aside>
+
+  <div class="main">
+    <nav class="crumb" aria-label="현재 위치">
+      <ol>
+        <li><a href={withBase("/")}>홈</a></li>
+        {
+          sub ? (
+            <>
+              <li>
+                <a href={withBase(`/category/${category.id}/`)}>{category.name}</a>
+              </li>
+              <li aria-current="page">{sub.name}</li>
+            </>
+          ) : (
+            <li aria-current="page">{category.name}</li>
+          )
+        }
+      </ol>
+    </nav>
+
+    <header class="head">
+      <h1>
+        {sub ? sub.name : category.name}
+        <span class="total">{products.length}개</span>
+      </h1>
+      <p>{category.description}</p>
+    </header>
+
+    <CategoryNav current={category} currentSub={sub?.id} variant="chips" />
+
+    <ProductList products={products} />
+  </div>
+</div>
+
+<style>
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding-block: var(--space-6) var(--space-8);
+  }
+  .aside {
+    display: none;
+  }
+  .main {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+    align-content: start;
+  }
+  .crumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .crumb li + li::before {
+    content: "›";
+    margin-right: var(--space-1);
+  }
+  .crumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumb a:hover {
+    color: var(--color-fg);
+    text-decoration: underline;
+  }
+  .head {
+    display: grid;
+    gap: var(--space-1);
+  }
+  h1 {
+    font-size: var(--text-xl);
+    font-weight: 800;
+  }
+  .total {
+    margin-left: var(--space-2);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .head p {
+    color: var(--color-muted);
+  }
+  @media (min-width: 900px) {
+    .page {
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+    .aside {
+      display: block;
+    }
+  }
+</style>
