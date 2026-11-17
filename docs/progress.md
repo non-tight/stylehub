@@ -9,7 +9,7 @@
 - [x] 3. CLAUDE.md, progress.md 작성
 - [x] 4. 사이트 구성 기획 (레이아웃, 대분류·소분류, 태그 사전, 가격대, 상품 데이터 형식, 이미지 방식)
 - [x] 5. Astro 뼈대 설치 + 데이터 형식 검사 + 배포 설정
-- [ ] 6. GitHub Pages 배포 및 주소 확인
+- [x] 6. GitHub Pages 배포 및 주소 확인
 - [ ] 7. 공통 레이아웃 (헤더, 하단 안내문, 상품 카드)
 - [ ] 8. 홈 페이지 (테마 타일 + 가로 줄)
 - [ ] 9. 카테고리 페이지 (목록형 + 색상·가격대 필터)
@@ -60,3 +60,7 @@
   - 콘텐츠 컬렉션 대신 JSON import + 검사 스크립트 방식 (파일끼리 맞춰 보는 검사가 필요해서)
   - 브랜드·구단·캐릭터 이름은 banned-words.json의 terms에 추가해서 자동으로 걸러냄
   - 6단계 전에 사용자가 Settings → Pages → Source를 "GitHub Actions"로 바꿔야 함
+
+### 2026-11-17 · 6단계 (첫 배포)
+- 한 일: 사용자가 Settings → Pages → Source를 "GitHub Actions"로 변경하고 PR #1 병합, GitHub Actions "Deploy to GitHub Pages" 첫 실행 성공(빌드·배포 모두 성공), 사용자가 https://non-tight.github.io/stylehub/ 에서 임시 화면 확인
+- 결정한 것: 이후 main에 병합되면 자동 배포되는 흐름으로 진행
