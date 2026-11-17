@@ -90,51 +90,65 @@
 
 ## 5단계. Astro 뼈대 설치 + 배포 설정
 
-### 5-1. Astro 프로젝트 만들기
-- `npm create astro@latest`로 빈 프로젝트(minimal 템플릿) 생성, TypeScript 사용
+### 5-1. Astro 설치 (완료: 2026-11-17)
+- Astro `7.4.12`를 버전 고정으로 설치 (Node.js 22.23.4 이상 필요)
 - `astro.config.mjs`에 GitHub Pages 주소 설정:
   - `site: "https://non-tight.github.io"`
-  - `base: "/stylehub"` (사이트가 하위 경로에 있으므로 필수. 링크·이미지 경로에 항상 base를 붙여야 함)
+  - `base: "/stylehub"` (사이트가 하위 경로에 있으므로 필수)
+- 명령어: `npm run dev`(개발 서버), `npm run check-data`(데이터 검사), `npm run build`(검사 + 빌드), `npm run preview`(빌드 결과 미리보기)
 
-### 5-2. 폴더 구조
+### 5-2. 폴더 구조 (★ = 5단계에서 만든 것)
 ```
+.github/workflows/deploy.yml  ★ 배포 자동화
+scripts/check-data.mjs        ★ 데이터 검사
 src/
   data/
-    categories.json     ← 대분류·소분류
-    tags.json           ← 태그 사전
-    price-ranges.json   ← 가격대 구간
-    products.json       ← 상품 목록
-  content.config.ts     ← 데이터 형식 검사 규칙
+    categories.json     ★ 대분류·소분류
+    tags.json           ★ 태그 사전
+    price-ranges.json   ★ 가격대 구간
+    products.json       ★ 상품 목록 (지금은 빈 목록)
+    banned-words.json   ★ 금지 단어 목록
+  lib/
+    data.ts             ★ JSON 불러오기 + 타입 + 도우미 함수
+    url.ts              ★ 링크 앞에 /stylehub 붙이는 withBase()
   layouts/
-    BaseLayout.astro    ← 모든 페이지 공통 틀 (head, 헤더, 하단)
+    BaseLayout.astro    ← 모든 페이지 공통 틀 (7단계)
   components/
-    Header.astro
-    Footer.astro        ← 하단 안내문
-    ProductCard.astro   ← 상품 카드
-    ThemeTile.astro     ← 홈 테마 타일
-    ProductRow.astro    ← 홈 가로 줄
+    Header.astro        ← 7단계
+    Footer.astro        ← 하단 안내문 (7단계)
+    ProductCard.astro   ← 상품 카드 (7단계)
+    ThemeTile.astro     ← 홈 테마 타일 (8단계)
+    ProductRow.astro    ← 홈 가로 줄 (8단계)
   pages/
-    index.astro                       ← 홈
-    category/[category]/index.astro   ← 대분류 페이지
-    category/[category]/[sub].astro   ← 소분류 페이지
-    tags/index.astro                  ← 전체 태그
-    tags/[tag].astro                  ← 태그별 상품
-    about.astro                       ← 소개
+    index.astro                       ★ 홈 (지금은 임시 "준비 중" 화면)
+    category/[category]/index.astro   ← 대분류 페이지 (9단계)
+    category/[category]/[sub].astro   ← 소분류 페이지 (9단계)
+    tags/index.astro                  ← 전체 태그 (10단계)
+    tags/[tag].astro                  ← 태그별 상품 (10단계)
+    about.astro                       ← 소개 (10단계)
 ```
 
 > **Next.js와 비교**: Astro도 `src/pages` 폴더 구조가 곧 주소가 되는 방식이라 Next.js의 pages 라우터와 거의 같습니다. `[category].astro`는 Next.js의 `[category].js` 동적 페이지와 같고, `getStaticPaths()`도 Next.js와 이름·역할이 같습니다. 다른 점은 Astro는 기본적으로 **자바스크립트 없이 HTML만** 만들어 낸다는 것이고, 필요한 부분에만 스크립트를 붙입니다.
+>
+> 링크 주의: Next.js의 `basePath`는 `<Link>`에 자동으로 붙지만, Astro는 `<a href>`에 `/stylehub`를 자동으로 붙여 주지 않습니다. 사이트 안쪽 링크는 항상 `withBase("/tags/red")`처럼 씁니다.
 
-### 5-3. 데이터 형식 검사 설정
-- Astro의 **콘텐츠 컬렉션** 기능으로 `src/data`의 JSON 파일들을 불러오고, 필드 형식을 검사합니다: 필수 항목, 존재하는 카테고리·소분류인지, 태그·색상·가격대가 사전에 있는 값인지.
-- 상품을 잘못 입력하면 빌드할 때 오류로 알려 주므로, 깨진 페이지가 배포되지 않습니다.
-- 금지 표현("정품급", "미러급", "레플리카", "st" 등) 검사도 이 단계에서 같이 넣습니다.
-- `image`는 `https://`로 시작하는 주소이거나 `null`인지 검사합니다.
+### 5-3. 데이터 불러오기와 검사 (변경: 콘텐츠 컬렉션 대신 JSON import + 검사 스크립트)
+- 콘텐츠 컬렉션은 파일 하나 안의 형식만 검사하므로, 파일끼리 맞춰 보는 검사(상품 태그가 tags.json에 있는지 등)를 위해 별도 스크립트로 바꿈
+- **`src/lib/data.ts`**: JSON을 import해서 타입과 도우미 함수(`getProductsBySub()`, `getTag()` 등)로 제공. 페이지에서는 이 파일만 사용
+- **`scripts/check-data.mjs`**가 검사하는 것:
+  - 필수 항목, id 형식(영문 소문자·숫자·하이픈)과 중복
+  - 대분류·소분류·태그·색상·가격대가 사전 파일에 있는 값인지
+  - `url`은 `https://`, `image`는 `https://` 또는 `null`, `addedAt`은 `2026-11-17` 형식
+  - 금지 표현: `banned-words.json`의 단어("정품급", "미러급", "레플리카" 등), "OO st" 형태
+- 브랜드·구단·캐릭터 이름은 `banned-words.json`의 `terms`에 추가하면 상품명·판매처명·분류명·태그명에서 잡아냄
+- `npm run build`는 **검사 → 빌드** 순서. 검사에 실패하면 빌드·배포가 멈춤
 
 ### 5-4. GitHub Actions 배포 설정
-- `.github/workflows/deploy.yml` 추가: `main` 브랜치에 push되면 Astro 빌드 → GitHub Pages 배포 (Astro 공식 `withastro/action` 사용)
-- 저장소 **Settings → Pages → Source를 "GitHub Actions"**로 변경 (사용자가 직접 해야 하는 설정)
+- `.github/workflows/deploy.yml`: `main`에 push되면(또는 Actions 탭에서 수동 실행) 설치 → 검사 + 빌드 → GitHub Pages 배포
+- GitHub 공식 액션(checkout, setup-node, upload-pages-artifact, deploy-pages)을 직접 나열해서 각 단계가 보이게 함. Node.js 24 사용
+- 저장소 **Settings → Pages → Source를 "GitHub Actions"**로 변경 (사용자가 직접 해야 하는 설정, 6단계)
 
-**완료 기준**: `npm run dev`로 로컬에서 빈 페이지가 뜨고, 배포 워크플로 파일이 준비된 상태.
+**완료 기준**: `npm run build` 성공, 틀린 데이터를 검사가 잡아냄, `npm run preview`에서 `/stylehub/` 주소로 임시 화면이 뜸, 배포 워크플로 파일 준비. (2026-11-17 모두 확인)
 
 ---
 

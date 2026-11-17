@@ -8,7 +8,7 @@
 - [x] 2. Claude Code 저장소 접근 허용
 - [x] 3. CLAUDE.md, progress.md 작성
 - [x] 4. 사이트 구성 기획 (레이아웃, 대분류·소분류, 태그 사전, 가격대, 상품 데이터 형식, 이미지 방식)
-- [ ] 5. Astro 뼈대 설치 + 데이터 형식 검사 + 배포 설정
+- [x] 5. Astro 뼈대 설치 + 데이터 형식 검사 + 배포 설정
 - [ ] 6. GitHub Pages 배포 및 주소 확인
 - [ ] 7. 공통 레이아웃 (헤더, 하단 안내문, 상품 카드)
 - [ ] 8. 홈 페이지 (테마 타일 + 가로 줄)
@@ -47,3 +47,16 @@
 ### 2026-11-17 · 4단계 완료
 - 한 일: 사용자가 태그 사전·가격대 초안과 상품 데이터 형식을 검토하고 4단계 완료를 확인
 - 결정한 것: categories.json, tags.json, price-ranges.json 초안과 implementation-plan.md 4-4의 상품 데이터 형식을 그대로 확정
+
+### 2026-11-17 · 5단계 (Astro 뼈대 설치 + 데이터 검사 + 배포 설정)
+- 한 일:
+  - Astro 7.4.12 설치, astro.config.mjs(site, base "/stylehub"), tsconfig.json, .gitignore 작성
+  - src/lib/data.ts(JSON 불러오기·타입·도우미 함수), src/lib/url.ts(withBase) 작성
+  - scripts/check-data.mjs(데이터 검사), src/data/banned-words.json(금지 단어), 빈 products.json 추가
+  - 임시 첫 화면(src/pages/index.astro: "준비 중" + 하단 안내문)
+  - .github/workflows/deploy.yml(main push 시 검사 + 빌드 → GitHub Pages 배포)
+  - 확인: npm run build 성공, 틀린 상품 데이터 4건으로 검사 테스트(14개 문제 모두 잡음, "Best seller" 같은 영어 단어는 통과), preview에서 /stylehub/ 화면 확인
+- 결정한 것:
+  - 콘텐츠 컬렉션 대신 JSON import + 검사 스크립트 방식 (파일끼리 맞춰 보는 검사가 필요해서)
+  - 브랜드·구단·캐릭터 이름은 banned-words.json의 terms에 추가해서 자동으로 걸러냄
+  - 6단계 전에 사용자가 Settings → Pages → Source를 "GitHub Actions"로 바꿔야 함
