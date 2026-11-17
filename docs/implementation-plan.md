@@ -16,7 +16,7 @@
 
 | 대분류 (slug) | 소분류 (slug) |
 |---|---|
-| 야구 응원 (`cheering`) | 응원 타월 (`towel`), 머리띠·모자 (`headwear`), 담요·방석 (`blanket`), 클래퍼·응원봉 (`clapper`) |
+| 야구 응원 (`cheering`) | 응원 타월 (`towel`), 머리띠·모자 (`headwear`), 담요·방석 (`blanket`), 클래퍼·응원봉 (`clapper`), 인형·키링 (`plush`, 2026-11-17 추가) |
 | 크리스마스 (`christmas`) | 홈데코 (`home-deco`), 파티 소품 (`party`), 니트·의류 (`knit`) |
 | 영화 무드 (`movie-mood`) | 80년대 레트로 (`retro`), 누아르 (`noir`), 우주 SF (`space`) |
 
