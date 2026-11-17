@@ -5,10 +5,26 @@
     "description": "응원 색상별로 고르는 야구장 용품",
     "order": 1,
     "subcategories": [
-      { "id": "towel", "name": "응원 타월" },
-      { "id": "headwear", "name": "머리띠·모자" },
-      { "id": "blanket", "name": "담요·방석" },
-      { "id": "clapper", "name": "클래퍼·응원봉" }
+      {
+        "id": "towel",
+        "name": "응원 타월"
+      },
+      {
+        "id": "headwear",
+        "name": "머리띠·모자"
+      },
+      {
+        "id": "blanket",
+        "name": "담요·방석"
+      },
+      {
+        "id": "clapper",
+        "name": "클래퍼·응원봉"
+      },
+      {
+        "id": "plush",
+        "name": "인형·키링"
+      }
     ]
   },
   {
@@ -17,9 +33,18 @@
     "description": "레드 & 그린으로 꾸미는 연말 홈파티",
     "order": 2,
     "subcategories": [
-      { "id": "home-deco", "name": "홈데코" },
-      { "id": "party", "name": "파티 소품" },
-      { "id": "knit", "name": "니트·의류" }
+      {
+        "id": "home-deco",
+        "name": "홈데코"
+      },
+      {
+        "id": "party",
+        "name": "파티 소품"
+      },
+      {
+        "id": "knit",
+        "name": "니트·의류"
+      }
     ]
   },
   {
@@ -28,9 +53,18 @@
     "description": "영화 속 분위기를 닮은 패션·소품",
     "order": 3,
     "subcategories": [
-      { "id": "retro", "name": "80년대 레트로" },
-      { "id": "noir", "name": "누아르" },
-      { "id": "space", "name": "우주 SF" }
+      {
+        "id": "retro",
+        "name": "80년대 레트로"
+      },
+      {
+        "id": "noir",
+        "name": "누아르"
+      },
+      {
+        "id": "space",
+        "name": "우주 SF"
+      }
     ]
   }
 ]

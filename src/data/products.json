@@ -4,11 +4,34 @@
     "name": "초코색 독수리 머리띠",
     "category": "cheering",
     "subcategory": "headwear",
-    "tags": ["brown", "animal-motif", "cheering", "photo-prop"],
+    "tags": [
+      "brown",
+      "animal-motif",
+      "cheering",
+      "photo-prop"
+    ],
     "color": "brown",
     "priceRange": "under-10k",
     "seller": "네이버 스마트스토어",
     "url": "https://smartstore.naver.com/gkbox/products/13806857186",
+    "image": null,
+    "addedAt": "2026-11-17"
+  },
+  {
+    "id": "blue-lion-plush",
+    "name": "블루 사자 봉제 인형",
+    "category": "cheering",
+    "subcategory": "plush",
+    "tags": [
+      "blue",
+      "animal-motif",
+      "cheering",
+      "gift"
+    ],
+    "color": "blue",
+    "priceRange": "10k-20k",
+    "seller": "쿠팡",
+    "url": "https://www.coupang.com/vp/products/9750615202?itemId=29196321513&vendorItemId=96116924497",
     "image": null,
     "addedAt": "2026-11-17"
   }
