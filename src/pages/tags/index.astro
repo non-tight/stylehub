@@ -1,0 +1,128 @@
+---
+/**
+ * 전체 태그 페이지: /tags/
+ * 상품이 1개 이상 있는 태그만 종류별(색상·소재·스타일·무드·용도)로 보여 준다.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagChip from "../../components/TagChip.astro";
+import { tagGroups, getProductsByTag } from "../../lib/data";
+import { withBase } from "../../lib/url";
+
+const groups = tagGroups
+  .map((g) => ({
+    ...g,
+    items: g.tags.map((t) => ({ tag: t, count: getProductsByTag(t.id).length })).filter((x) => x.count > 0),
+  }))
+  .filter((g) => g.items.length > 0);
+---
+
+<BaseLayout title="태그" description="색상·소재·스타일·용도 태그로 상품을 찾아보세요.">
+  <div class="container page">
+    <nav class="crumb" aria-label="현재 위치">
+      <ol>
+        <li><a href={withBase("/")}>홈</a></li>
+        <li aria-current="page">태그</li>
+      </ol>
+    </nav>
+    <header class="head">
+      <h1>태그</h1>
+      <p>색상·소재·스타일·용도로 상품을 찾아보세요.</p>
+    </header>
+
+    {
+      groups.length === 0 ? (
+        <div class="empty">
+          <p>태그가 붙은 상품을 준비하고 있어요.</p>
+        </div>
+      ) : (
+        <div class="groups">
+          {groups.map((g) => (
+            <section class="group">
+              <h2>{g.name}</h2>
+              <div class="chips">
+                {g.items.map((x) => (
+                  <TagChip tag={x.tag} count={x.count} isColor={g.id === "color"} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-6) var(--space-8);
+  }
+  .crumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .crumb li + li::before {
+    content: "›";
+    margin-right: var(--space-1);
+  }
+  .crumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .head {
+    display: grid;
+    gap: var(--space-1);
+  }
+  h1 {
+    font-size: var(--text-xl);
+    font-weight: 800;
+  }
+  .head p {
+    color: var(--color-muted);
+  }
+  .groups {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+  }
+  .group h2 {
+    font-size: var(--text-base);
+    font-weight: 700;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .empty {
+    padding: var(--space-12) var(--space-4);
+    text-align: center;
+    color: var(--color-muted);
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+  @media (min-width: 768px) {
+    .group {
+      grid-template-columns: 120px minmax(0, 1fr);
+      align-items: start;
+    }
+    .group h2 {
+      padding-top: 6px;
+    }
+  }
+</style>

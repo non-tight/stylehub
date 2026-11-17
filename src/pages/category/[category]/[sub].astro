@@ -1,0 +1,34 @@
+---
+/**
+ * 소분류 페이지: /category/[category]/[sub]/  (예: /category/cheering/plush/)
+ * categories.json의 소분류마다 자동으로 만들어진다. 상품이 없어도 "준비 중" 안내와 함께 만들어진다.
+ */
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CategoryView from "../../../components/CategoryView.astro";
+import type { Category, Subcategory } from "../../../lib/data";
+import { categories, getProductsBySub } from "../../../lib/data";
+
+export function getStaticPaths() {
+  return categories.flatMap((category) =>
+    category.subcategories.map((sub) => ({
+      params: { category: category.id, sub: sub.id },
+      props: { category, sub },
+    })),
+  );
+}
+
+interface Props {
+  category: Category;
+  sub: Subcategory;
+}
+
+const { category, sub } = Astro.props;
+const products = getProductsBySub(category.id, sub.id);
+---
+
+<BaseLayout
+  title={`${sub.name} - ${category.name}`}
+  description={`${category.name} › ${sub.name}: ${category.description}`}
+>
+  <CategoryView category={category} sub={sub} products={products} />
+</BaseLayout>

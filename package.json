@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "dev:sample": "astro dev --mode sample",
     "check-data": "node scripts/check-data.mjs",
-    "build": "npm run check-data && astro build",
+    "build": "npm run check-data && astro build && npm run check-links",
+    "check-links": "node scripts/check-links.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

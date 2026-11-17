@@ -81,6 +81,11 @@ export function getTag(id: string): Tag | undefined {
   return allTags.find((t) => t.id === id);
 }
 
+/** 태그가 속한 그룹 (색상·소재·스타일·무드·용도) */
+export function getTagGroup(tagId: string): TagGroup | undefined {
+  return tagGroups.find((g) => g.tags.some((t) => t.id === tagId));
+}
+
 export function getPriceRange(id: string): PriceRange | undefined {
   return priceRanges.find((p) => p.id === id);
 }
