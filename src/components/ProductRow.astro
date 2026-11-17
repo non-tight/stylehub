@@ -1,0 +1,182 @@
+---
+/**
+ * 홈 가로 줄: 제목 + "더 보기" + 옆으로 넘기는 상품 카드 목록
+ * - 휴대폰: 손가락으로 밀어서 넘김 (스크롤 스냅)
+ * - PC: ‹ › 버튼으로 넘김 (아래 <script>. 자바스크립트가 꺼져 있으면 버튼은 숨겨지고 스크롤로 봄)
+ */
+import type { Product } from "../lib/data";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  title: string;
+  /** 제목 앞의 작은 글씨 (예: 대분류 이름) */
+  eyebrow?: string;
+  /** "더 보기" 링크 주소. 없으면 링크를 표시하지 않음 */
+  moreHref?: string;
+  products: Product[];
+  /** 최대 카드 수 */
+  limit?: number;
+}
+
+const { title, eyebrow, moreHref, products, limit = 10 } = Astro.props;
+const shown = products.slice(0, limit);
+---
+
+<section class="row" data-product-row>
+  <div class="head">
+    <h2>
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      {title}
+    </h2>
+    <div class="actions">
+      {moreHref && <a class="more" href={moreHref}>더 보기 ›</a>}
+      <div class="nav" data-row-nav hidden>
+        <button type="button" data-dir="-1" aria-label={`${title} 이전 상품`}>‹</button>
+        <button type="button" data-dir="1" aria-label={`${title} 다음 상품`}>›</button>
+      </div>
+    </div>
+  </div>
+  <ul class="track" data-row-track>
+    {
+      shown.map((p) => (
+        <li>
+          <ProductCard product={p} />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<script>
+  // 이 스크립트는 페이지에 한 번만 실린다 (Astro가 자동으로 묶어 줌)
+  function setupRow(row: HTMLElement) {
+    const track = row.querySelector<HTMLElement>("[data-row-track]");
+    const nav = row.querySelector<HTMLElement>("[data-row-nav]");
+    if (!track || !nav) return;
+    const prev = nav.querySelector<HTMLButtonElement>('[data-dir="-1"]');
+    const next = nav.querySelector<HTMLButtonElement>('[data-dir="1"]');
+    if (!prev || !next) return;
+
+    const update = () => {
+      const overflow = track.scrollWidth > track.clientWidth + 1;
+      nav.hidden = !overflow;
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    };
+
+    nav.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-dir]");
+      if (!btn) return;
+      const dir = Number(btn.dataset.dir);
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: reduce ? "auto" : "smooth" });
+    });
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-product-row]").forEach(setupRow);
+</script>
+
+<style>
+  .row {
+    display: grid;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  h2 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    min-width: 0;
+  }
+  .eyebrow {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+  }
+  .actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .more {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .more:hover {
+    color: var(--color-accent);
+  }
+  .nav {
+    display: flex;
+    gap: var(--space-1);
+  }
+  .nav[hidden] {
+    display: none;
+  }
+  .nav button {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    font-size: var(--text-lg);
+    line-height: 1;
+    border: 1px solid var(--color-line);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-fg);
+    cursor: pointer;
+  }
+  .nav button:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .nav button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .track {
+    list-style: none;
+    margin: 0;
+    padding: 2px 2px var(--space-3);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 168px;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    overscroll-behavior-x: contain;
+  }
+  .track > li {
+    scroll-snap-align: start;
+    display: flex;
+  }
+  .track > li > :global(*) {
+    flex: 1;
+  }
+  @media (min-width: 768px) {
+    .track {
+      grid-auto-columns: 208px;
+      gap: var(--space-4);
+    }
+  }
+  /* 휴대폰(터치)에서는 버튼 대신 손가락으로 넘김 */
+  @media (hover: none) and (pointer: coarse) {
+    .nav {
+      display: none;
+    }
+  }
+</style>

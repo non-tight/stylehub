@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "dev:sample": "astro dev --mode sample",
     "check-data": "node scripts/check-data.mjs",
     "build": "npm run check-data && astro build",
     "preview": "astro preview",
