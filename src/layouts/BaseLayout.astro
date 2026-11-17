@@ -35,7 +35,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <meta name="theme-color" content="#f4f6f9" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -45,7 +45,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
