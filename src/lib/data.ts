@@ -7,6 +7,7 @@ import categoriesJson from "../data/categories.json";
 import tagsJson from "../data/tags.json";
 import priceRangesJson from "../data/price-ranges.json";
 import productsJson from "../data/products.json";
+import sampleProductsJson from "../data/sample-products.json";
 
 export interface Subcategory {
   id: string;
@@ -58,10 +59,16 @@ export const categories: Category[] = [...(categoriesJson as Category[])].sort(
 );
 export const tagGroups: TagGroup[] = tagsJson as TagGroup[];
 export const priceRanges: PriceRange[] = priceRangesJson as PriceRange[];
+/**
+ * 예시 데이터 모드: `npm run dev:sample`(= astro dev --mode sample)일 때만 sample-products.json을 쓴다.
+ * 평소 개발(npm run dev)과 배포용 빌드(npm run build)는 항상 products.json만 쓴다.
+ */
+export const isSampleMode = import.meta.env.DEV && import.meta.env.MODE === "sample";
+
 /** 새로 추가된 순으로 정렬된 전체 상품 */
-export const products: Product[] = [...(productsJson as Product[])].sort((a, b) =>
-  b.addedAt.localeCompare(a.addedAt),
-);
+export const products: Product[] = [
+  ...((isSampleMode ? sampleProductsJson : productsJson) as Product[]),
+].sort((a, b) => b.addedAt.localeCompare(a.addedAt));
 
 export const allTags: Tag[] = tagGroups.flatMap((g) => g.tags);
 export const colorTags: Tag[] = tagGroups.find((g) => g.id === "color")?.tags ?? [];

@@ -1,0 +1,459 @@
+[
+  {
+    "id": "sample-towel-red-stripe",
+    "name": "레드 스트라이프 응원 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "red",
+      "stripe",
+      "cotton",
+      "cheering"
+    ],
+    "color": "red",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-towel-red-stripe",
+    "image": null,
+    "addedAt": "2026-11-16"
+  },
+  {
+    "id": "sample-towel-navy",
+    "name": "네이비 무지 슬로건 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "navy",
+      "cotton",
+      "cheering"
+    ],
+    "color": "navy",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-towel-navy",
+    "image": null,
+    "addedAt": "2026-11-15"
+  },
+  {
+    "id": "sample-towel-yellow",
+    "name": "옐로 쿨링 응원 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "yellow",
+      "nylon",
+      "cheering",
+      "outdoor"
+    ],
+    "color": "yellow",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-towel-yellow",
+    "image": null,
+    "addedAt": "2026-11-14"
+  },
+  {
+    "id": "sample-towel-green",
+    "name": "그린 체크 빅 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "green",
+      "check",
+      "cotton",
+      "cheering"
+    ],
+    "color": "green",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-towel-green",
+    "image": null,
+    "addedAt": "2026-11-12"
+  },
+  {
+    "id": "sample-towel-black",
+    "name": "블랙 모노톤 머플러 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "black",
+      "monotone",
+      "knit",
+      "cheering"
+    ],
+    "color": "black",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-towel-black",
+    "image": null,
+    "addedAt": "2026-11-10"
+  },
+  {
+    "id": "sample-towel-orange",
+    "name": "오렌지 도트 미니 타월",
+    "category": "cheering",
+    "subcategory": "towel",
+    "tags": [
+      "orange",
+      "dot",
+      "cotton",
+      "cheering"
+    ],
+    "color": "orange",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-towel-orange",
+    "image": null,
+    "addedAt": "2026-11-09"
+  },
+  {
+    "id": "sample-head-led",
+    "name": "LED 응원 머리띠",
+    "category": "cheering",
+    "subcategory": "headwear",
+    "tags": [
+      "multicolor",
+      "neon",
+      "cheering",
+      "photo-prop"
+    ],
+    "color": "multicolor",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-head-led",
+    "image": null,
+    "addedAt": "2026-11-16"
+  },
+  {
+    "id": "sample-head-cap-blue",
+    "name": "블루 베이직 볼캡",
+    "category": "cheering",
+    "subcategory": "headwear",
+    "tags": [
+      "blue",
+      "cotton",
+      "outdoor",
+      "daily"
+    ],
+    "color": "blue",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-head-cap-blue",
+    "image": null,
+    "addedAt": "2026-11-13"
+  },
+  {
+    "id": "sample-head-bucket",
+    "name": "화이트 버킷햇",
+    "category": "cheering",
+    "subcategory": "headwear",
+    "tags": [
+      "white",
+      "cotton",
+      "outdoor"
+    ],
+    "color": "white",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-head-bucket",
+    "image": null,
+    "addedAt": "2026-11-08"
+  },
+  {
+    "id": "sample-blanket-red",
+    "name": "레드 경량 무릎 담요",
+    "category": "cheering",
+    "subcategory": "blanket",
+    "tags": [
+      "red",
+      "fleece",
+      "winter",
+      "cheering"
+    ],
+    "color": "red",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-blanket-red",
+    "image": null,
+    "addedAt": "2026-11-11"
+  },
+  {
+    "id": "sample-blanket-cushion",
+    "name": "네이비 접이식 방석",
+    "category": "cheering",
+    "subcategory": "blanket",
+    "tags": [
+      "navy",
+      "nylon",
+      "outdoor"
+    ],
+    "color": "navy",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-blanket-cushion",
+    "image": null,
+    "addedAt": "2026-11-07"
+  },
+  {
+    "id": "sample-poncho",
+    "name": "투명 판초 우의",
+    "category": "cheering",
+    "subcategory": "blanket",
+    "tags": [
+      "white",
+      "nylon",
+      "rainy-day"
+    ],
+    "color": "white",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-poncho",
+    "image": null,
+    "addedAt": "2026-11-06"
+  },
+  {
+    "id": "sample-tree-mini",
+    "name": "미니 트리 60cm",
+    "category": "christmas",
+    "subcategory": "home-deco",
+    "tags": [
+      "green",
+      "interior",
+      "home-party"
+    ],
+    "color": "green",
+    "priceRange": "20k-30k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-tree-mini",
+    "image": null,
+    "addedAt": "2026-11-16"
+  },
+  {
+    "id": "sample-runner-check",
+    "name": "레드 체크 테이블 러너",
+    "category": "christmas",
+    "subcategory": "home-deco",
+    "tags": [
+      "red",
+      "check",
+      "cotton",
+      "interior"
+    ],
+    "color": "red",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-runner-check",
+    "image": null,
+    "addedAt": "2026-11-15"
+  },
+  {
+    "id": "sample-garland",
+    "name": "골드 전구 가랜드 5m",
+    "category": "christmas",
+    "subcategory": "home-deco",
+    "tags": [
+      "gold",
+      "metallic",
+      "interior"
+    ],
+    "color": "gold",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-garland",
+    "image": null,
+    "addedAt": "2026-11-14"
+  },
+  {
+    "id": "sample-wreath",
+    "name": "솔방울 리스",
+    "category": "christmas",
+    "subcategory": "home-deco",
+    "tags": [
+      "brown",
+      "wood",
+      "vintage",
+      "interior"
+    ],
+    "color": "brown",
+    "priceRange": "20k-30k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-wreath",
+    "image": null,
+    "addedAt": "2026-11-12"
+  },
+  {
+    "id": "sample-ornament",
+    "name": "실버 글리터 오너먼트 12개",
+    "category": "christmas",
+    "subcategory": "home-deco",
+    "tags": [
+      "silver",
+      "glitter",
+      "home-party"
+    ],
+    "color": "silver",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-ornament",
+    "image": null,
+    "addedAt": "2026-11-11"
+  },
+  {
+    "id": "sample-party-hat",
+    "name": "파티 고깔모자 6개 세트",
+    "category": "christmas",
+    "subcategory": "party",
+    "tags": [
+      "multicolor",
+      "paper",
+      "home-party",
+      "photo-prop"
+    ],
+    "color": "multicolor",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-party-hat",
+    "image": null,
+    "addedAt": "2026-11-13"
+  },
+  {
+    "id": "sample-party-balloon",
+    "name": "레드 & 화이트 풍선 세트",
+    "category": "christmas",
+    "subcategory": "party",
+    "tags": [
+      "red",
+      "home-party",
+      "photo-prop"
+    ],
+    "color": "red",
+    "priceRange": "under-10k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-party-balloon",
+    "image": null,
+    "addedAt": "2026-11-09"
+  },
+  {
+    "id": "sample-knit-sweater",
+    "name": "노르딕 패턴 니트 스웨터",
+    "category": "christmas",
+    "subcategory": "knit",
+    "tags": [
+      "red",
+      "knit",
+      "cozy",
+      "winter"
+    ],
+    "color": "red",
+    "priceRange": "30k-50k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-knit-sweater",
+    "image": null,
+    "addedAt": "2026-11-10"
+  },
+  {
+    "id": "sample-knit-gloves",
+    "name": "화이트 꽈배기 니트 장갑",
+    "category": "christmas",
+    "subcategory": "knit",
+    "tags": [
+      "white",
+      "knit",
+      "winter",
+      "gift"
+    ],
+    "color": "white",
+    "priceRange": "10k-20k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-knit-gloves",
+    "image": null,
+    "addedAt": "2026-11-08"
+  },
+  {
+    "id": "sample-retro-windbreaker",
+    "name": "네온 컬러 윈드브레이커",
+    "category": "movie-mood",
+    "subcategory": "retro",
+    "tags": [
+      "multicolor",
+      "neon",
+      "retro",
+      "nylon"
+    ],
+    "color": "multicolor",
+    "priceRange": "30k-50k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-retro-windbreaker",
+    "image": null,
+    "addedAt": "2026-11-15"
+  },
+  {
+    "id": "sample-retro-speaker",
+    "name": "카세트 모양 블루투스 스피커",
+    "category": "movie-mood",
+    "subcategory": "retro",
+    "tags": [
+      "black",
+      "retro",
+      "gift"
+    ],
+    "color": "black",
+    "priceRange": "20k-30k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-retro-speaker",
+    "image": null,
+    "addedAt": "2026-11-12"
+  },
+  {
+    "id": "sample-retro-shorts",
+    "name": "하이웨이스트 데님 쇼츠",
+    "category": "movie-mood",
+    "subcategory": "retro",
+    "tags": [
+      "sky-blue",
+      "denim",
+      "y2k",
+      "daily"
+    ],
+    "color": "sky-blue",
+    "priceRange": "20k-30k",
+    "seller": "예시 판매처 C",
+    "url": "https://example.com/sample/sample-retro-shorts",
+    "image": null,
+    "addedAt": "2026-11-09"
+  },
+  {
+    "id": "sample-space-lamp",
+    "name": "달 모양 무드등",
+    "category": "movie-mood",
+    "subcategory": "space",
+    "tags": [
+      "gray",
+      "interior",
+      "gift"
+    ],
+    "color": "gray",
+    "priceRange": "20k-30k",
+    "seller": "예시 판매처 A",
+    "url": "https://example.com/sample/sample-space-lamp",
+    "image": null,
+    "addedAt": "2026-11-14"
+  },
+  {
+    "id": "sample-space-jacket",
+    "name": "메탈릭 실버 패딩 조끼",
+    "category": "movie-mood",
+    "subcategory": "space",
+    "tags": [
+      "silver",
+      "metallic",
+      "winter"
+    ],
+    "color": "silver",
+    "priceRange": "over-50k",
+    "seller": "예시 판매처 B",
+    "url": "https://example.com/sample/sample-space-jacket",
+    "image": null,
+    "addedAt": "2026-11-07"
+  }
+]

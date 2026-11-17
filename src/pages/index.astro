@@ -1,29 +1,104 @@
 ---
-// 홈 임시 화면. 8단계에서 테마 타일 + 가로 줄 디자인으로 바꾼다.
+/**
+ * 홈: 짧은 소개 → 테마 타일 → 새로 추가된 상품 줄 → 소분류별 가로 줄
+ * 데이터(categories.json, products.json)만 바꾸면 자동으로 반영된다.
+ */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { categories } from "../lib/data";
+import ThemeTile from "../components/ThemeTile.astro";
+import ProductRow from "../components/ProductRow.astro";
+import { categories, products, getProductsByCategory, getProductsBySub } from "../lib/data";
+import { withBase } from "../lib/url";
+
+// 상품이 있는 소분류만 줄로 만든다 (빈 줄 숨김)
+const subRows = categories.flatMap((c) =>
+  c.subcategories
+    .map((s) => ({ category: c, sub: s, items: getProductsBySub(c.id, s.id) }))
+    .filter((r) => r.items.length > 0),
+);
 ---
 
 <BaseLayout>
-  <section class="container intro">
-    <h1>스타일허브</h1>
-    <p>스타일과 트렌드로 고르는 합리적인 가격의 상품 모음을 준비하고 있습니다.</p>
-    <p class="themes">준비 중인 테마: {categories.map((c) => c.name).join(" · ")}</p>
-  </section>
+  <div class="container home">
+    <section class="intro">
+      <h1>스타일로 고르는 합리적인 쇼핑</h1>
+      <p>브랜드 대신 분위기와 색으로 골라 보세요. 테마별로 비슷한 느낌의 상품을 모았습니다.</p>
+    </section>
+
+    <section class="tiles" aria-label="테마">
+      {categories.map((c) => <ThemeTile category={c} count={getProductsByCategory(c.id).length} />)}
+    </section>
+
+    {
+      products.length === 0 ? (
+        <section class="empty">
+          <h2>첫 상품을 준비하고 있어요</h2>
+          <p>테마별 상품이 곧 올라옵니다.</p>
+        </section>
+      ) : (
+        <div class="rows">
+          <ProductRow title="새로 추가된 상품" products={products} />
+          {subRows.map((r) => (
+            <ProductRow
+              eyebrow={r.category.name}
+              title={r.sub.name}
+              moreHref={withBase(`/category/${r.category.id}/${r.sub.id}/`)}
+              products={r.items}
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
 </BaseLayout>
 
 <style>
+  .home {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    padding-block: var(--space-8);
+  }
   .intro {
     display: grid;
-    gap: var(--space-3);
-    padding-block: var(--space-12);
-    text-align: center;
-    justify-items: center;
+    gap: var(--space-2);
   }
   h1 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
+    font-weight: 800;
   }
-  p {
+  .intro p {
     color: var(--color-muted);
+    max-width: 60ch;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+  .rows {
+    display: grid;
+    gap: var(--space-8);
+    min-width: 0;
+  }
+  .empty {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+    text-align: center;
+    padding: var(--space-12) var(--space-4);
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+  .empty h2 {
+    font-size: var(--text-lg);
+  }
+  .empty p {
+    color: var(--color-muted);
+  }
+  @media (min-width: 768px) {
+    h1 {
+      font-size: var(--text-2xl);
+    }
   }
 </style>
