@@ -1,0 +1,48 @@
+# main 브랜치에 push되면 사이트를 빌드해서 GitHub Pages에 배포한다.
+# 처음 한 번은 저장소 Settings → Pages → Source를 "GitHub Actions"로 바꿔야 한다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v7
+      - name: Node.js 설치
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: 패키지 설치
+        run: npm ci
+      - name: 데이터 검사 + 빌드
+        run: npm run build
+      - name: 빌드 결과 업로드
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: GitHub Pages에 배포
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,14 @@
+# 빌드 결과물
+dist/
+.astro/
+
+# 설치된 패키지
+node_modules/
+
+# 로그·환경 파일
+npm-debug.log*
+.env
+.env.*
+
+# 운영체제 파일
+.DS_Store
